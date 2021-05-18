@@ -1,0 +1,85 @@
+% Function calculates num_vcycles loops of vcycles
+
+% Inputs:
+% grids - number of grids
+% num_vcycles - number of vcycles performed
+% numit - number of iterations per grid (up and down)
+% A - function of Au=f
+% f - RHS of Au=f
+% N - grid points
+% k - wave number
+% v - best estimate of solution
+% r - residual
+
+% Ouputs:
+% v - best guess after vcycle iterations
+% r - residual of best guess
+
+function [v,r]=vcycle2(grids,N,k,num_vcycles,numit,A,f,v,r)
+
+% Define cells to store arrays of different lengths
+cellN=cell(grids,1);
+cellk=cell(grids,1);
+cellf=cell(grids,1);
+cellv=cell(grids,1);
+
+cellN{1}=N;
+cellk{1}=k;
+cellf{1}=f;
+cellv{1}=v;
+
+for i=2:grids
+   
+    % step down for N and k
+    cellN{i}=cellN{i-1}/2;
+    cellk{i}=[cellk{i-1}(1:cellN{i-1}/4) 0 cellk{i-1}(3*cellN{i-1}/4+2:end)];
+    
+    % preset lengths
+    cellf{i}=zeros(cellN{i},1);
+    cellv{i}=zeros(cellN{i},1);
+    
+end
+
+% loop through vcycles
+for p=1:num_vcycles
+
+    % Stepping down
+    for i=1:grids-1
+    
+        % Step down
+        cellf{i+1}=Rmg(r,cellN{i+1});
+        % clear v from previous loop
+        cellv{i+1}=zeros(cellN{i+1},1);
+        % Iterate
+        for j=1:numit
+            cellv{i+1}=RI(A,cellv{i+1},cellf{i+1},cellk{i+1});
+        end
+        % Find residual
+        r=findR(cellf{i+1},A,cellv{i+1},cellk{i+1});
+        fprintf('grid %f
+    end
+
+    % Stepping up
+    for i=grids:-1:2
+    
+        % Step up and update guess
+        cellv{i-1}=cellv{i-1}+Pmg(cellv{i},cellN{i-1});
+        % Iterate
+        for j=1:numit
+            cellv{i-1}=RI(A,cellv{i-1},cellf{i-1},cellk{i-1});
+        end
+       % Find residual (optional)
+        r=findR(cellf{i+1},A,cellv{i+1},cellk{i+1});
+        disp(rms(r))
+    end
+
+    % calculate v and r for next loop (or output)
+    v=cellv{1};
+    r=findR(f,A,v,k);
+    
+    % display average r (display purpose only)
+    disp(rms(r))
+    
+end
+
+end
