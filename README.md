@@ -5,4 +5,4 @@ Uses pseudo arc-length continuation with parameters gamma and Delta to generate 
 
 Line Search uses pseudo arc-length continuation with parameter gamma for Delta = 0. Generates Keeler et al (2017) solutions originating from Solitary waves
 
-Not the cleanest code ... may get back to it someday to clean it up
+Not the cleanest code ... may get back to it someday to clean it up. Many unneccessary files and poor documentation ...
