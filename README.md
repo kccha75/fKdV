@@ -1,9 +1,13 @@
-# fKdV
-Steady Forced KdV equation with sech^2 forcing
+# One-dimensional Fourier Spectral Multigrid for the forced Korteweg de-Vries equation
 
-Uses pseudo arc-length continuation with parameters gamma and Delta to generate hydraulic fall continuation. See Ee and Clarke (2007)
+Code written in Matlab. Archived and uploaded to GitHub.
 
-Line Search uses pseudo arc-length continuation with parameter gamma for Delta = 0. Generates Keeler et al (2017) solutions originating from Solitary waves
-Also contains code to find the Solitary waves (see fkdvrootfind)
+## About:
+Solves the one-dimensional forced Korteweg de-Vries equation (fKdV) using Fourier Spectral Multigrid.
 
-Not the cleanest code ... may get back to it someday to clean it up. Many unneccessary files and poor documentation ...
+A sech^2 bump forcing is used with a large (periodic) domain simulating decay at infinity.
+
+Pseudo arc-length continuation is used to trace the hydraulic fall parameter space and evolution from exponentially decaying to algebraically decaying solitary waves. Shooting method is used to find solitary wave solutions.
+
+## Results
+
