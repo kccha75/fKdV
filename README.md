@@ -11,3 +11,8 @@ Pseudo arc-length continuation is used to trace the hydraulic fall parameter spa
 
 ## Results
 
+### Solitary wave solutions from shooting method
+<img src="solitary.png" alt="solitary" width="600"/>
+
+### Hydraulic fall parametric space
+<img src="parametric.png" alt="parametric" width="600"/>
